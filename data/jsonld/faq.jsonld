@@ -1,0 +1,46 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Necesito tener mucha plata para empezar a invertir?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Podés comenzar con montos accesibles. Lo importante es arrancar con una estrategia clara y ajustada a tu perfil."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Tiene algún costo el servicio de asesoramiento?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. El asesoramiento personalizado y la gestión de capital no tienen costo adicional para vos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Puedo retirar mi dinero cuando quiera?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí. Tu dinero siempre está a tu nombre y disponible. Se invierte en instrumentos líquidos y regulados."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿En qué se invierte mi capital?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Se invierte en Acciones, Bonos, CEDEARs, ONs, FCIs, cauciones por dar algunos ejemplos, tanto en pesos como en dólares."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Es seguro invertir a través de Balanz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí. Balanz es una ALyC regulada por la CNV, con años de trayectoria y custodia en Caja de valores. Tu cuenta está a tu nombre y es 100% transparente. BALANZ CAPITAL VALORES S.A.U. Agente de Liquidación y Compensación y Agente de Negociación Integral N°210 ante la CNV."
+      }
+    }
+  ]
+}
