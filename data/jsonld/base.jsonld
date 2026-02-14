@@ -1,0 +1,140 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://inversiones.ortega.id/#person",
+      "name": "Ezequiel Ortega",
+      "jobTitle": "Asesor Financiero Independiente",
+      "description": "Asesor financiero matriculado en la CNV (Matrícula N° 2299), especializado en gestión de capital e inversiones personalizadas en Argentina.",
+      "url": "https://inversiones.ortega.id/",
+      "image": "https://inversiones.ortega.id/images/ezequiel-picture.jpeg",
+      "email": "eortega@ap.balanz.com",
+      "telephone": "+54 9 11 2500-2526",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Buenos Aires",
+        "addressCountry": "AR"
+      },
+      "sameAs": [
+        "{{LINKEDIN_URL}}",
+        "{{INSTAGRAM_URL}}"
+      ],
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Matrícula CNV",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Comisión Nacional de Valores",
+          "url": "https://www.cnv.gob.ar/"
+        }
+      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Universidad de Yale",
+          "department": "Financial Markets"
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "BYMA",
+          "department": "Operador de Mercado de Capitales"
+        }
+      ],
+      "worksFor": {
+        "@type": "Organization",
+        "@id": "https://inversiones.ortega.id/#balanz"
+      }
+    },
+    {
+      "@type": "FinancialService",
+      "@id": "https://inversiones.ortega.id/#service-asesoria",
+      "name": "Asesoría en Inversiones",
+      "description": "Estrategias de inversión a medida para gestionar capital de forma eficiente y con riesgos controlados.",
+      "provider": {
+        "@id": "https://inversiones.ortega.id/#person"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      },
+      "serviceType": "Asesoramiento financiero independiente"
+    },
+    {
+      "@type": "FinancialService",
+      "@id": "https://inversiones.ortega.id/#service-gestion",
+      "name": "Gestión de Capital",
+      "description": "Manejo profesional de capital con visión de crecimiento sostenible a largo plazo.",
+      "provider": {
+        "@id": "https://inversiones.ortega.id/#person"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      },
+      "serviceType": "Gestión de portafolio"
+    },
+    {
+      "@type": "FinancialService",
+      "@id": "https://inversiones.ortega.id/#service-planificacion",
+      "name": "Planificación Financiera",
+      "description": "Ayuda para ordenar finanzas y proyectar objetivos con claridad.",
+      "provider": {
+        "@id": "https://inversiones.ortega.id/#person"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Argentina"
+      },
+      "serviceType": "Planificación financiera personal"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://inversiones.ortega.id/#balanz",
+      "name": "Balanz Capital Valores S.A.U.",
+      "url": "https://balanz.com",
+      "description": "Agente de Liquidación y Compensación y Agente de Negociación Integral N°210 ante la CNV",
+      "sameAs": [
+        "https://www.linkedin.com/company/balanz/",
+        "https://www.instagram.com/balanzcapital/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://inversiones.ortega.id/#website",
+      "url": "https://inversiones.ortega.id/",
+      "name": "Ezequiel Ortega - Asesor Financiero",
+      "description": "Sitio oficial de Ezequiel Ortega, asesor financiero matriculado en CNV especializado en gestión de capital.",
+      "publisher": {
+        "@id": "https://inversiones.ortega.id/#person"
+      },
+      "inLanguage": "es-AR"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://inversiones.ortega.id/#webpage",
+      "url": "https://inversiones.ortega.id/",
+      "name": "Asesor Financiero en Argentina | Ezequiel Ortega - Balanz Capital",
+      "description": "Ezequiel Ortega es asesor financiero en Balanz y matriculado en CNV. Ofrece gestión de capital e inversiones personalizadas. Consulta sin costo.",
+      "isPartOf": {
+        "@id": "https://inversiones.ortega.id/#website"
+      },
+      "about": {
+        "@id": "https://inversiones.ortega.id/#person"
+      },
+      "inLanguage": "es-AR"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://inversiones.ortega.id/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://inversiones.ortega.id/"
+        }
+      ]
+    }
+  ]
+}
