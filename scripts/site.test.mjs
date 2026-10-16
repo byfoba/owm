@@ -4,6 +4,7 @@ import { readFile, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { site, pages } from './content.mjs';
+import { articles } from './articles.mjs';
 const root = fileURLToPath(new URL('../dist/', import.meta.url));
 const read = (file) => readFile(path.join(root, file), 'utf8');
 const decode = (value) => value.replaceAll('&amp;', '&');
@@ -91,4 +92,24 @@ test('Sitemap matches the indexable pages and robots advertises it', async () =>
   assert.ok(robots.includes(`Sitemap: ${site.origin}/sitemap.xml`));
   assert.equal((await read('CNAME')).trim(), 'inversiones.ortega.id');
   await access(path.join(root, '.nojekyll'));
+});
+
+test('Educational guides are discoverable and have article markup, dates and visible sources', async () => {
+  const hub = await read('recursos/index.html');
+  assert.equal(articles.length, 5);
+  for (const guide of articles) {
+    assert.ok(hub.includes(`href="/${guide.slug}/"`), `Orphan guide: ${guide.slug}`);
+    const html = await read(`${guide.slug}/index.html`);
+    const graph = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1])['@graph'];
+    const article = graph.find(x => x['@type'] === 'Article');
+    assert.ok(article, guide.slug);
+    assert.equal(article.headline, guide.heading);
+    assert.ok(html.includes(`<time datetime="${article.dateModified}"`));
+    assert.ok(graph.some(x => x['@type'] === 'BreadcrumbList'));
+    assert.ok(html.includes('href="/recursos/"'));
+    assert.ok(guide.sources.length > 0);
+    for (const [, href] of guide.sources) assert.ok(decode(html).includes(`href="${href}"`));
+    assert.doesNotMatch(html, /Estado: borrador|Pendiente editorial|revisado por|author"/i);
+    assert.match(html, /<meta property="og:type" content="article"/);
+  }
 });

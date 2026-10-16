@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { site, pages, questions, risk, costs } from './content.mjs';
+import { articles } from './articles.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const esc = (value) => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -12,10 +13,10 @@ const contact = (context, placement = 'content', label = 'Consultar por WhatsApp
 const instagramIcon = '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/></svg>';
 const navLinks = [
   ['asesoramiento-financiero', 'Servicios'], ['como-trabajo', 'Cómo trabajo'],
-  ['invertir-con-balanz', 'Balanz'], ['sobre-ezequiel-ortega', 'Sobre mí'],
+  ['invertir-con-balanz', 'Balanz'], ['recursos', 'Recursos'], ['sobre-ezequiel-ortega', 'Sobre mí'],
 ];
 function nav(page) {
-  const links = navLinks.map(([slug, label]) => `<a class="text-sm font-medium text-gray-700 hover:text-brand-700" href="/${slug}/"${page.slug === slug ? ' aria-current="page"' : ''}>${label}</a>`).join('');
+  const links = navLinks.map(([slug, label]) => `<a class="text-sm font-medium text-gray-700 hover:text-brand-700" href="/${slug}/"${page.slug === slug || (slug === 'recursos' && page.type === 'Article') ? ' aria-current="page"' : ''}>${label}</a>`).join('');
   return `<a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:p-4">Saltar al contenido</a>
   <header class="sticky top-0 z-40 border-b border-gray-100 bg-white/95 backdrop-blur-sm"><div class="wrap flex items-center justify-between gap-4 py-4">
     <a class="flex items-center gap-2 font-semibold text-gray-900" href="/" aria-label="Ezequiel Ortega, inicio"><span class="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 text-sm text-white" aria-hidden="true">EO</span><span>Ezequiel Ortega</span></a>
@@ -28,7 +29,7 @@ function footer(page) {
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div><a href="/" class="text-lg font-semibold">Ezequiel Ortega</a><p class="mt-4 text-sm leading-relaxed text-gray-300">Asesoramiento financiero e inversiones en Argentina. Matrícula CNV N.º 2299.</p></div>
       <div><h2 class="mb-4 font-semibold">Asesoramiento</h2><ul class="space-y-3 text-sm"><li><a class="footer-link" href="/asesoramiento-financiero/">Servicios</a></li><li><a class="footer-link" href="/como-trabajo/">Cómo trabajo</a></li><li><a class="footer-link" href="/invertir-con-balanz/">Invertir con Balanz</a></li><li><a class="footer-link" href="/preguntas-frecuentes/">Preguntas frecuentes</a></li></ul></div>
-      <div><h2 class="mb-4 font-semibold">Información</h2><ul class="space-y-3 text-sm"><li><a class="footer-link" href="/sobre-ezequiel-ortega/">Perfil profesional</a></li><li><a class="footer-link" href="/informacion-profesional/">Información regulatoria</a></li><li><a class="footer-link" href="/privacidad/">Privacidad y uso del sitio</a></li></ul></div>
+      <div><h2 class="mb-4 font-semibold">Información</h2><ul class="space-y-3 text-sm"><li><a class="footer-link" href="/recursos/">Guías educativas</a></li><li><a class="footer-link" href="/sobre-ezequiel-ortega/">Perfil profesional</a></li><li><a class="footer-link" href="/informacion-profesional/">Información regulatoria</a></li><li><a class="footer-link" href="/privacidad/">Privacidad y uso del sitio</a></li></ul></div>
       <div><h2 class="mb-4 font-semibold">Contacto</h2><ul class="space-y-3 text-sm"><li><a class="footer-link break-all" href="mailto:${site.email}" data-event="click_email" data-placement="footer">${site.email}</a></li><li>${contact(page.context, 'footer', 'WhatsApp', 'footer-link')}</li><li><a class="footer-link inline-flex items-center gap-2" href="${site.instagram}" target="_blank" rel="noopener noreferrer" data-event="click_instagram" data-placement="footer">${instagramIcon}<span>Instagram<span class="sr-only"> de Ezequiel Ortega (abre en otra pestaña)</span></span></a></li></ul></div>
     </div>
     <div class="mt-10 space-y-4 border-t border-gray-700 pt-7 text-sm leading-relaxed text-gray-300"><p>${risk}</p><p>© ${new Date().getUTCFullYear()} Ezequiel Ortega. Todos los derechos reservados.</p></div>
@@ -66,6 +67,7 @@ function home(page) {
   ].map(([title, text], i) => `<li class="card"><p class="mb-4 text-sm font-semibold text-brand-700">Paso ${i + 1}</p><h3 class="mb-3 text-lg font-bold text-gray-900">${title}</h3><p class="leading-relaxed">${text}</p></li>`).join('')}</ol><a class="mt-8 inline-block font-semibold text-brand-800 underline underline-offset-4" href="/como-trabajo/">Ver el proceso completo →</a></div></section>
   <section class="py-20"><div class="wrap grid items-center gap-10 lg:grid-cols-2"><img class="aspect-[3/2] w-full rounded-2xl object-cover" src="/images/oficinas_balanz.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Oficinas de Balanz Capital Valores"/><div><p class="eyebrow">Cuenta de inversión</p><h2 class="heading">Invertir con Balanz y acompañamiento personal</h2><p class="mt-5 text-lg leading-relaxed">Conocé cómo iniciar la apertura de una cuenta a tu nombre, el rol del intermediario y las condiciones que conviene revisar antes de operar.</p><a class="btn mt-7" href="/invertir-con-balanz/">Conocer la cuenta en Balanz</a></div></div></section>
   <section id="preguntas-frecuentes" class="border-t border-gray-100 bg-gray-50 py-20"><div class="wrap max-w-4xl"><p class="eyebrow">Antes de empezar</p><h2 class="heading mb-8">Preguntas frecuentes</h2>${faq(questions.slice(1, 6))}<a class="mt-8 inline-block font-semibold text-brand-800 underline underline-offset-4" href="/preguntas-frecuentes/">Ver todas las preguntas →</a></div></section>
+  <section class="py-20"><div class="wrap"><p class="eyebrow">Para leer con calma</p><h2 class="heading">Guías para preparar tus decisiones</h2><div class="mt-10 grid gap-6 md:grid-cols-3">${resourceCards(articles.slice(0, 3), 3)}</div><a class="mt-8 inline-block font-semibold text-brand-800 underline underline-offset-4" href="/recursos/">Explorar las cinco guías →</a></div></section>
   ${contactBlock(page)}`;
 }
 function contactBlock(page) {
@@ -78,6 +80,20 @@ function inner(page) {
   return `<section class="border-b border-brand-100 bg-brand-50 py-14 md:py-20"><div class="wrap max-w-4xl"><nav class="mb-6 text-sm" aria-label="Ruta de navegación"><a class="text-brand-800 underline underline-offset-4" href="/">Inicio</a><span aria-hidden="true"> / </span><span>${page.heading}</span></nav><h1 class="heading">${page.heading}</h1><p class="mt-6 text-xl leading-relaxed">${page.intro}</p></div></section>
   <div class="wrap max-w-4xl py-14"><div class="space-y-10">${page.sections.map(([heading, html]) => `<section class="copy"><h2>${heading}</h2>${html}</section>`).join('')}</div>${page.context === 'balanz' ? accountLinks() : ''}</div>${page.context !== 'privacidad' ? contactBlock(page) : ''}`;
 }
+function resourceCards(items, headingLevel = 2) {
+  return items.map(a => `<a class="card block transition-colors hover:border-brand-200" href="/${a.slug}/"><p class="eyebrow">${esc(a.topic)}</p><h${headingLevel} class="mb-4 text-xl font-bold leading-snug text-gray-900">${esc(a.heading)}</h${headingLevel}><p class="leading-relaxed text-gray-600">${esc(a.description)}</p><span class="mt-6 inline-block font-semibold text-brand-800">Leer guía →</span></a>`).join('');
+}
+function resourceHub(page) {
+  return `<section class="border-b border-brand-100 bg-brand-50 py-16"><div class="wrap max-w-4xl"><p class="eyebrow">Recursos educativos</p><h1 class="heading">${esc(page.heading)}</h1><p class="mt-6 text-xl leading-relaxed">${esc(page.intro)}</p></div></section><div class="wrap py-14"><div class="grid gap-6 md:grid-cols-2">${resourceCards(articles)}</div><p class="mt-10 max-w-3xl text-sm leading-relaxed">${risk}</p></div>${contactBlock(page)}`;
+}
+function article(page) {
+  const date = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires' }).format(new Date(`${page.updatedAt}T12:00:00-03:00`));
+  const related = page.related.map(slug => articles.find(a => a.slug === slug));
+  return `<article><header class="border-b border-brand-100 bg-brand-50 py-14 md:py-20"><div class="wrap max-w-4xl"><nav class="mb-7 text-sm" aria-label="Ruta de navegación"><a class="text-brand-800 underline underline-offset-4" href="/">Inicio</a><span aria-hidden="true"> / </span><a class="text-brand-800 underline underline-offset-4" href="/recursos/">Recursos</a></nav><p class="eyebrow">${esc(page.topic)}</p><h1 class="heading">${esc(page.heading)}</h1><p class="mt-6 text-xl leading-relaxed">${esc(page.intro)}</p><p class="mt-6 text-sm text-gray-600">Guía educativa · Actualizada el <time datetime="${page.updatedAt}">${date}</time></p></div></header>
+  <div class="wrap max-w-4xl py-12"><nav aria-label="En esta guía" class="mb-12 rounded-2xl border border-gray-200 bg-gray-50 p-6"><h2 class="mb-4 font-semibold text-gray-900">En esta guía</h2><ol class="space-y-3">${page.sections.map(([heading], i) => `<li><a class="font-medium text-brand-800 underline underline-offset-4" href="#seccion-${i + 1}">${esc(heading)}</a></li>`).join('')}</ol></nav><div class="space-y-12">${page.sections.map(([heading, html], i) => `<section class="copy" id="seccion-${i + 1}"><h2>${esc(heading)}</h2>${html}</section>`).join('')}</div>
+  <section class="copy mt-12 border-t border-gray-200 pt-8"><h2>Fuentes y actualización</h2><p>Fuentes consultadas el ${date}. Las condiciones y los registros pueden cambiar; revisá la referencia oficial antes de tomar una decisión.</p><ul>${page.sources.map(([label, href]) => `<li><a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a></li>`).join('')}</ul>${page.sourceNote ? `<p>${esc(page.sourceNote)}</p>` : ''}<p class="text-sm">${risk}</p></section></div></article>
+  <section class="bg-gray-50 py-14"><div class="wrap"><h2 class="heading mb-8">Seguí leyendo</h2><div class="grid gap-6 md:grid-cols-2">${resourceCards(related, 3)}</div></div></section>${contactBlock(page)}`;
+}
 function render(page) {
   const canonical = url(page.slug);
   const graph = {
@@ -85,7 +101,9 @@ function render(page) {
     '@graph': [
       { '@type': 'Person', '@id': `${site.origin}/#ezequiel`, name: site.name, url: `${site.origin}/sobre-ezequiel-ortega/`, image: `${site.origin}/images/ezequiel-picture.jpeg`, description: 'Asesoramiento financiero e inversiones en Argentina.', sameAs: [site.instagram] },
       { '@type': 'WebSite', '@id': `${site.origin}/#website`, url: `${site.origin}/`, name: `${site.name} | Asesoramiento financiero`, inLanguage: 'es-AR', publisher: { '@id': `${site.origin}/#ezequiel` } },
-      { '@type': page.type, '@id': `${canonical}#webpage`, url: canonical, name: page.title, description: page.description, inLanguage: 'es-AR', isPartOf: { '@id': `${site.origin}/#website` }, ...(page.type === 'AboutPage' ? { mainEntity: { '@id': `${site.origin}/#ezequiel` } } : {}) },
+      { '@type': page.type === 'Article' ? 'WebPage' : page.type, '@id': `${canonical}#webpage`, url: canonical, name: page.title, description: page.description, inLanguage: 'es-AR', isPartOf: { '@id': `${site.origin}/#website` }, ...(page.type === 'AboutPage' ? { mainEntity: { '@id': `${site.origin}/#ezequiel` } } : {}), ...(page.type === 'Article' ? { mainEntity: { '@id': `${canonical}#article` } } : {}) },
+      ...(page.type === 'Article' ? [{ '@type': 'Article', '@id': `${canonical}#article`, headline: page.heading, description: page.description, url: canonical, inLanguage: 'es-AR', dateModified: page.updatedAt, mainEntityOfPage: { '@id': `${canonical}#webpage` }, publisher: { '@id': `${site.origin}/#ezequiel` }, citation: page.sources.map(([, href]) => href) }] : []),
+      ...(page.slug.startsWith('recursos') ? [{ '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Inicio', item: `${site.origin}/` }, { '@type': 'ListItem', position: 2, name: 'Recursos', item: `${site.origin}/recursos/` }, ...(page.type === 'Article' ? [{ '@type': 'ListItem', position: 3, name: page.heading, item: canonical }] : [])] }] : []),
     ],
   };
   return `<!doctype html>
@@ -94,12 +112,12 @@ function render(page) {
 <title>${esc(page.title)}</title><meta name="description" content="${esc(page.description)}"/>
 <link rel="canonical" href="${canonical}"/><meta name="robots" content="index,follow"/>
 <link rel="icon" href="/images/favicon-32x32.png" type="image/png"/><link rel="stylesheet" href="/assets/site.css"/>
-<meta property="og:type" content="website"/><meta property="og:locale" content="es_AR"/><meta property="og:site_name" content="Ezequiel Ortega"/>
+<meta property="og:type" content="${page.type === 'Article' ? 'article' : 'website'}"/><meta property="og:locale" content="es_AR"/><meta property="og:site_name" content="Ezequiel Ortega"/>
 <meta property="og:title" content="${esc(page.title)}"/><meta property="og:description" content="${esc(page.description)}"/><meta property="og:url" content="${canonical}"/>
 <meta property="og:image" content="${site.origin}/images/ezequiel-picture.jpeg"/><meta property="og:image:width" content="1600"/><meta property="og:image:height" content="1200"/><meta property="og:image:alt" content="Ezequiel Ortega, asesor financiero"/>
 <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="${esc(page.title)}"/><meta name="twitter:description" content="${esc(page.description)}"/><meta name="twitter:image" content="${site.origin}/images/ezequiel-picture.jpeg"/><meta name="twitter:image:alt" content="Ezequiel Ortega, asesor financiero"/>
 <script type="application/ld+json">${JSON.stringify(graph).replace(/</g, '\\u003c')}</script><script src="/assets/site.js" defer></script>
-</head><body data-page="${page.context}">${nav(page)}<main id="contenido">${page.slug ? inner(page) : home(page)}</main>${footer(page)}</body></html>\n`;
+</head><body data-page="${page.slug || page.context}">${nav(page)}<main id="contenido">${page.type === 'Article' ? article(page) : page.context === 'recursos' ? resourceHub(page) : page.slug ? inner(page) : home(page)}</main>${footer(page)}</body></html>\n`;
 }
 
 for (const page of pages) {
