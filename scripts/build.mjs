@@ -32,9 +32,10 @@ function footer(page) {
       <div><h2 class="mb-4 font-semibold">Información</h2><ul class="space-y-3 text-sm"><li><a class="footer-link" href="/recursos/">Guías educativas</a></li><li><a class="footer-link" href="/sobre-ezequiel-ortega/">Perfil profesional</a></li><li><a class="footer-link" href="/informacion-profesional/">Información regulatoria</a></li><li><a class="footer-link" href="/privacidad/">Privacidad y uso del sitio</a></li></ul></div>
       <div><h2 class="mb-4 font-semibold">Contacto</h2><ul class="space-y-3 text-sm"><li><a class="footer-link break-all" href="mailto:${site.email}" data-event="click_email" data-placement="footer">${site.email}</a></li><li>${contact(page.context, 'footer', 'WhatsApp', 'footer-link')}</li><li><a class="footer-link inline-flex items-center gap-2" href="${site.instagram}" target="_blank" rel="noopener noreferrer" data-event="click_instagram" data-placement="footer">${instagramIcon}<span>Instagram<span class="sr-only"> de Ezequiel Ortega (abre en otra pestaña)</span></span></a></li></ul></div>
     </div>
-    <div class="mt-10 space-y-4 border-t border-gray-700 pt-7 text-sm leading-relaxed text-gray-300"><p>${risk}</p><p>© ${new Date().getUTCFullYear()} Ezequiel Ortega. Todos los derechos reservados.</p></div>
+    <div class="mt-10 space-y-4 border-t border-gray-700 pt-7 text-sm leading-relaxed text-gray-300"><p>${risk}</p><p>© ${new Date().getUTCFullYear()} Ezequiel Ortega. Todos los derechos reservados.</p><button hidden data-open-consent class="footer-link text-left text-sm underline">Preferencias de privacidad</button></div>
   </div></footer>
-  ${contact(page.context, 'floating', '<img src="/assets/whatsapp.svg" alt="" aria-hidden="true" width="28" height="28" class="h-7 w-7 shrink-0"/> WhatsApp', 'fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-green-800 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-green-900')}`;
+  ${contact(page.context, 'floating', '<img src="/assets/whatsapp.svg" alt="" aria-hidden="true" width="28" height="28" class="h-7 w-7 shrink-0"/> WhatsApp', 'fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-green-800 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-green-900')}
+  <section hidden id="analytics-consent" aria-labelledby="consent-title" class="fixed inset-x-0 bottom-0 z-50 max-h-[80vh] overflow-y-auto border-t border-gray-200 bg-white p-5 shadow-xl"><div class="wrap flex flex-col gap-5 md:flex-row md:items-center"><div class="flex-1"><h2 id="consent-title" class="mb-2 font-semibold text-gray-900">Medición del sitio</h2><p class="text-sm leading-relaxed text-gray-700">Podés permitir Google Analytics para medir visitas y clics. Es opcional y podés cambiar tu elección desde el footer. <a class="font-medium text-brand-800 underline underline-offset-4" href="/privacidad/">Ver privacidad</a>.</p></div><div class="flex flex-wrap gap-3"><button class="btn btn-outline" data-consent-choice="denied">Rechazar</button><button class="btn btn-outline" data-consent-choice="granted">Aceptar analítica</button></div></div></section>`;
 }
 const cards = [
   ['01', 'Empezar a invertir', 'Definir objetivos, plazos y necesidades de liquidez antes de elegir instrumentos.'],
@@ -116,8 +117,8 @@ function render(page) {
 <meta property="og:title" content="${esc(page.title)}"/><meta property="og:description" content="${esc(page.description)}"/><meta property="og:url" content="${canonical}"/>
 <meta property="og:image" content="${site.origin}/images/ezequiel-picture.jpeg"/><meta property="og:image:width" content="1600"/><meta property="og:image:height" content="1200"/><meta property="og:image:alt" content="Ezequiel Ortega, asesor financiero"/>
 <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="${esc(page.title)}"/><meta name="twitter:description" content="${esc(page.description)}"/><meta name="twitter:image" content="${site.origin}/images/ezequiel-picture.jpeg"/><meta name="twitter:image:alt" content="Ezequiel Ortega, asesor financiero"/>
-<script type="application/ld+json">${JSON.stringify(graph).replace(/</g, '\\u003c')}</script><script src="/assets/site.js" defer></script>
-</head><body data-page="${page.slug || page.context}">${nav(page)}<main id="contenido">${page.type === 'Article' ? article(page) : page.context === 'recursos' ? resourceHub(page) : page.slug ? inner(page) : home(page)}</main>${footer(page)}</body></html>\n`;
+<script type="application/ld+json">${JSON.stringify(graph).replace(/</g, '\\u003c')}</script><script src="/assets/site.js" defer></script><script src="/assets/analytics.js" defer></script>
+</head><body data-page="${page.slug || page.context}" data-analytics-id="${site.analyticsId}" data-site-origin="${site.origin}">${nav(page)}<main id="contenido">${page.type === 'Article' ? article(page) : page.context === 'recursos' ? resourceHub(page) : page.slug ? inner(page) : home(page)}</main>${footer(page)}</body></html>\n`;
 }
 
 for (const page of pages) {
@@ -138,6 +139,6 @@ for (const page of pages) {
 }
 for (const filename of ['robots.txt', 'sitemap.xml', 'CNAME', '.nojekyll']) await copyFile(path.join(root, filename), path.join(dist, filename));
 await mkdir(path.join(dist, 'assets'), { recursive: true });
-for (const filename of ['site.css', 'site.js', 'whatsapp.svg']) await copyFile(path.join(root, 'assets', filename), path.join(dist, 'assets', filename));
+for (const filename of ['site.css', 'site.js', 'analytics.js', 'whatsapp.svg']) await copyFile(path.join(root, 'assets', filename), path.join(dist, 'assets', filename));
 await cp(path.join(root, 'images'), path.join(dist, 'images'), { recursive: true });
 console.log(`Built ${pages.length} static pages for ${site.origin}. Output: dist/ (also compatible with publishing repository root).`);

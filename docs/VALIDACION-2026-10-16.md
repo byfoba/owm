@@ -46,4 +46,12 @@ Oportunidades menores señaladas: entrega de imágenes, caché y CSS bloqueante.
 
 Se generan quince páginas con contenido HTML legible sin JavaScript. Se comprueban enlaces internos y fragmentos, recursos locales, metadatos únicos, canonical, datos estructurados, destinos de contacto y sitemap. Las guías incorporan Article y BreadcrumbList, fechas visibles y fuentes primarias.
 
-Las cinco guías se revisaron en el navegador con una vista de teléfono: ancho útil de 375 px, sin desborde horizontal. Se probaron enlaces del índice y la navegación desde el hub. La vista de escritorio del hub también fue inspeccionada. El seguimiento analítico sigue sin activarse hasta obtener el ID real de GA4 y configurar privacidad. No se fabrican datos de visitas, leads ni clientes.
+Las cinco guías se revisaron en el navegador con una vista de teléfono: ancho útil de 375 px, sin desborde horizontal. Se probaron enlaces del índice y la navegación desde el hub. La vista de escritorio del hub también fue inspeccionada.
+
+## Google Analytics
+
+El propietario aportó `G-DPKDSMXB34` y confirmó Enhanced measurement desactivado. Se añade consentimiento básico con rechazo, aceptación y preferencias en el footer. El permiso de publicidad permanece denegado. Las vistas usan canonical sin parámetros y referencia limitada al origen; los eventos propios sólo envían tipo de clic, página y ubicación.
+
+Las pruebas JS en memoria verifican: ausencia de Google antes de consentir y después de rechazar; carga única y una sola vista al aceptar; exclusión de URL/email/teléfono de los eventos propios; revocación con bloqueo y eliminación de cookies; persistencia, caducidad y almacenamiento bloqueado. No se envían eventos de prueba a Google y localhost permanece desactivado.
+
+La recepción en la propiedad real se comprobará después del merge desde Realtime. No se fabrican datos de visitas, leads ni clientes. Las mediciones PSI anteriores son previas a esta integración y deberán repetirse cuando esté publicada si aparece una regresión o una señal de rendimiento que lo justifique.

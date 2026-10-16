@@ -69,7 +69,7 @@ test('Instagram, confirmed WhatsApp and Balanz referral are preserved, with safe
   assert.match(balanz, /href="https:\/\/balanz.com\/comisiones\/"/);
 });
 
-test('Unsupported claims and third party runtime dependencies are absent', async () => {
+test('Unsupported claims and unconditional external scripts are absent', async () => {
   for (const page of pages) {
     const html = await read(path.join(page.slug, 'index.html'));
     assert.doesNotMatch(html, /\+50|\+\$500M|\+25%|Universidad de Yale|certificado en la CNV|Independiente|segura y rentable|riesgos controlados|100% transparente/);
