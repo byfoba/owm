@@ -33,7 +33,7 @@ function footer(page) {
     </div>
     <div class="mt-10 space-y-4 border-t border-gray-700 pt-7 text-sm leading-relaxed text-gray-300"><p>${risk}</p><p>© ${new Date().getUTCFullYear()} Ezequiel Ortega. Todos los derechos reservados.</p></div>
   </div></footer>
-  ${contact(page.context, 'floating', '<span aria-hidden="true">↗</span> WhatsApp', 'fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-green-800 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-green-900')}`;
+  ${contact(page.context, 'floating', '<img src="/assets/whatsapp.svg" alt="" aria-hidden="true" width="28" height="28" class="h-7 w-7 shrink-0"/> WhatsApp', 'fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-green-800 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:bg-green-900')}`;
 }
 const cards = [
   ['01', 'Empezar a invertir', 'Definir objetivos, plazos y necesidades de liquidez antes de elegir instrumentos.'],
@@ -120,6 +120,6 @@ for (const page of pages) {
 }
 for (const filename of ['robots.txt', 'sitemap.xml', 'CNAME', '.nojekyll']) await copyFile(path.join(root, filename), path.join(dist, filename));
 await mkdir(path.join(dist, 'assets'), { recursive: true });
-for (const filename of ['site.css', 'site.js']) await copyFile(path.join(root, 'assets', filename), path.join(dist, 'assets', filename));
+for (const filename of ['site.css', 'site.js', 'whatsapp.svg']) await copyFile(path.join(root, 'assets', filename), path.join(dist, 'assets', filename));
 await cp(path.join(root, 'images'), path.join(dist, 'images'), { recursive: true });
 console.log(`Built ${pages.length} static pages for ${site.origin}. Output: dist/ (also compatible with publishing repository root).`);
