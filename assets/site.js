@@ -21,8 +21,8 @@ if (toggle && menu) {
   });
 }
 
-// Integration point only: no network, storage, provider or personal data.
-// A collector must be configured separately after reviewing privacy requirements.
+// Only event type, page identifier and placement; never the link or message.
+// analytics.js forwards these events only after consent.
 document.addEventListener('click', (event) => {
   const link = event.target.closest('a[data-event]');
   if (!link) return;

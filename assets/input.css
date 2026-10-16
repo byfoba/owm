@@ -22,6 +22,12 @@
   .copy ul { @apply mb-4 list-disc space-y-2 pl-6; }
   .copy ol { @apply mb-4 list-decimal space-y-3 pl-6; }
   .copy h2 { @apply mb-5 text-2xl font-bold leading-snug text-gray-900; }
+  .table-wrap { @apply mb-5 overflow-x-auto rounded-xl border border-gray-200; }
+  .copy table { @apply w-full border-collapse text-left text-sm; }
+  .copy caption { @apply border-b border-gray-200 bg-gray-50 px-4 py-3 text-left font-semibold text-gray-900; }
+  .copy th, .copy td { @apply border-b border-gray-200 p-4 align-top; }
+  .copy thead { @apply bg-brand-50 text-gray-900; }
+  .copy tbody th { @apply font-semibold text-gray-900; }
   .footer-link { @apply text-gray-300 underline-offset-4 hover:text-white hover:underline; }
 }
 @media (prefers-reduced-motion: reduce) {
